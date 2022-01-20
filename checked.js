@@ -1,3 +1,6 @@
+let idDelete = [];
+let Otable;
+
 $(document).on('click', '.delete-all', function(e){
     e.preventDefault();
     let url = $(this).data('url');
@@ -8,7 +11,7 @@ $(document).on('click', '.delete-all', function(e){
         confirmButtonColor: '#07be6e',
         cancelButtonColor: '#d57171',
         confirmButtonText: 'Yes, Delete!'
-    }).then(function () {
+    }, function () {
         $.ajax({
             type:'POST',
             url: url,
@@ -29,6 +32,7 @@ $(document).on('click', '.delete-all', function(e){
 });
 
 $(document).on('change', '.checkboks', function(e){
+    e.preventDefault();
     let id = $(this).val();
     if($(this).is(':checked')){
         idDelete.push(id);
@@ -82,9 +86,7 @@ function checkedContent()
     }
 
     if(numberChecked > 0 && numberOfChecked <= 0){
-        $('#checkAll').html(`<div class="checkbox">
-                        <input type="checkbox" class="checkall" id="emailCheck">
-                    </div>`);
+        $('#checkAll').html(`<input type="checkbox" class="checkall" id="emailCheck">`);
     }
     if(numberOfChecked === numberChecked)
     {
@@ -92,9 +94,7 @@ function checkedContent()
         {
             $('#checkAll').html(``);
         }else {
-            $('#checkAll').html(`<div class="checkbox">
-                        <input type="checkbox" class="checkall" id="emailCheck" checked>
-                    </div>`);
+            $('#checkAll').html(`<input type="checkbox" class="checkall" id="emailCheck" checked>`);
         }
 
     }
@@ -103,18 +103,17 @@ function checkedContent()
 function uncheckedContent()
 {
     var numberOfChecked = $('input:checkbox[name=check_data]:checked').length;
+
     var numberChecked = $('input:checkbox[name=check_data]').length;
     if(numberOfChecked === 0){
-        $('#checkAll').html(`<div class="checkbox">
-                        <input type="checkbox" class="checkall" id="emailCheck">
-                    </div>`);
+        $('#checkAll').html(`<input type="checkbox" class="checkall"/>`);
     }
     if(numberOfChecked > 0){
         $('#checkAll').html(`<span id="unchecked" style="cursor: pointer;"><i class="fa fa-minus-square text-primary"></i></span>`);
     }
 }
 
-function checkAll()
+function    checkAll()
 {
     $("input:checkbox[name=check_data]:checked").each(function(){
         idDelete.push($(this).val());
@@ -133,7 +132,7 @@ function DeleteAll()
     if(idDelete.length > 0)
     {
         $('.delete-all').show();
-        $('#lengthcek').html(idDelete.length);
+        $('#lengthcek').html(' '+idDelete.length);
     } else {
         $('.delete-all').hide();
     }
